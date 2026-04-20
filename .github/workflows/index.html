@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>《别开门》宿舍夜火 180 秒生存挑战</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --line: rgba(203, 213, 225, 0.14);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --danger: #ef4444;
+      --danger-2: #f97316;
+      --safe: #22c55e;
+      --shadow: 0 24px 60px rgba(2, 6, 23, 0.42);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --title-font: "HarmonyOS Sans SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+      --body-font: "HarmonyOS Sans SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--body-font);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(249,115,22,0.12), transparent 24%),
+        radial-gradient(circle at 20% 12%, rgba(20,184,166,0.1), transparent 22%),
+        linear-gradient(180deg, #08101f 0%, #0f172a 28%, #111c2f 62%, #d9eef2 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 42vw;
+      height: 42vw;
+      background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 68%);
+      filter: blur(18px);
+      pointer-events: none;
+      z-index: 0;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+
+    body::before { top: 6%; left: -10%; }
+    body::after { top: 32%; right: -12%; animation-duration: 16s; }
+
+    @keyframes drift {
+      from { transform: translateY(0) translateX(0); opacity: 0.35; }
+      to { transform: translateY(24px) translateX(16px); opacity: 0.6; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.25); opacity: 0.55; }
+    }
+
+    @keyframes spark {
+      from { transform: scale(0.9) translateY(0); opacity: 0.7; }
+      to { transform: scale(1.2) translateY(-4px); opacity: 1; }
+    }
+
+    @keyframes hotspot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.34); }
+      70% { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 480px);
+      margin: 0 auto;
+      padding: 16px 16px 40px;
+    }
+
+    .section {
+      position: relative;
+      margin: 0 0 22px;
+      padding: 24px 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(15,23,42,0.76), rgba(15,23,42,0.58));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section.light {
+      color: #102030;
+      background: linear-gradient(180deg, rgba(248,250,252,0.9), rgba(226,245,246,0.82));
+    }
+
+    .section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent 42%);
+      pointer-events: none;
+    }
+
+    .eyebrow,
+    .badge { letter-spacing: 0.06em; text-transform: uppercase; }
+
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { font-family: var(--title-font); }
+    h1 { margin-top: 16px; font-size: clamp(34px, 7vw, 46px); line-height: 1.06; letter-spacing: -0.03em; }
+    h2 { font-size: 26px; line-height: 1.15; margin-bottom: 12px; }
+    h3 { font-size: 18px; line-height: 1.3; }
+    p { color: var(--muted); font-size: 15px; line-height: 1.7; }
+    .light p, .light .meta-value { color: rgba(16,32,48,0.76); }
+
+    .hero {
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 16px;
+      padding-top: 8px;
+      padding-bottom: 10px;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(239,68,68,0.22), transparent 24%),
+        linear-gradient(180deg, rgba(8,16,31,0.4), rgba(8,16,31,0.88)),
+        linear-gradient(145deg, #172554 0%, #0f172a 35%, #111827 100%);
+    }
+
+    .hero-grid, .grid-2, .steps, .challenge-layout, .equipment-row, .review-grid, .option-list, .button-row {
+      display: grid;
+      gap: 14px;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .clock-chip {
+      min-width: 82px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      text-align: center;
+      background: rgba(15,23,42,0.62);
+      border: 1px solid rgba(248,250,252,0.12);
+    }
+
+    .clock-chip strong { display: block; font-size: 22px; line-height: 1; color: #fff7ed; }
+    .clock-chip span { display: block; margin-top: 6px; font-size: 11px; color: var(--muted); }
+    .hero-copy { display: grid; gap: 10px; max-width: 680px; }
+    .button-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover, .btn:focus-visible { transform: translateY(-2px); outline: none; }
+    .btn-primary { color: white; background: linear-gradient(135deg, var(--danger), var(--danger-2)); box-shadow: 0 14px 28px rgba(239,68,68,0.3); }
+    .btn-secondary { color: var(--text); background: rgba(15,23,42,0.55); border: 1px solid rgba(248,250,252,0.12); }
+
+    .window-glow, .door-glow, .spark, .desk, .board, .chair, .bed,
+    .frame-smoke, .frame-char, .frame-door, .frame-desk, .frame-caption, .video-slot { position: absolute; }
+
+    .window-glow {
+      top: 28px; right: 28px; width: 96px; height: 76px;
+      background: linear-gradient(180deg, rgba(255,194,94,0.55), rgba(255,94,58,0.1));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      box-shadow: 0 0 36px rgba(249,115,22,0.18);
+    }
+
+    .door-glow {
+      bottom: 34px; right: 18px; width: 96px; height: 154px;
+      border-radius: 18px 18px 8px 8px;
+      background: linear-gradient(180deg, rgba(71,85,105,0.7), rgba(15,23,42,0.95));
+      box-shadow: inset -10px 0 28px rgba(239,68,68,0.18);
+    }
+
+    .door-glow::after {
+      content: "";
+      position: absolute;
+      inset: 8px 0 8px auto;
+      width: 10px;
+      background: linear-gradient(180deg, rgba(249,115,22,0.7), transparent 84%);
+      filter: blur(2px);
+    }
+
+    .desk { left: 26px; bottom: 34px; width: 180px; height: 86px; border-radius: 18px 18px 10px 10px; background: linear-gradient(180deg, rgba(100,116,139,0.38), rgba(30,41,59,0.92)); }
+    .board { left: 48px; bottom: 94px; width: 84px; height: 50px; border-radius: 10px; background: linear-gradient(180deg, rgba(96,165,250,0.48), rgba(15,23,42,0.95)); box-shadow: 0 0 18px rgba(59,130,246,0.25); }
+    .chair { left: 154px; bottom: 22px; width: 42px; height: 84px; border-radius: 18px 18px 10px 10px; border: 2px solid rgba(148,163,184,0.22); }
+    .bed { left: 22px; top: 52px; width: 160px; height: 86px; border-radius: 18px; background: linear-gradient(180deg, rgba(51,65,85,0.58), rgba(15,23,42,0.88)); border: 1px solid rgba(248,250,252,0.05); }
+    .spark { left: 144px; bottom: 68px; width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle, rgba(255,238,197,1) 0%, rgba(249,115,22,1) 38%, rgba(239,68,68,0) 72%); box-shadow: 0 0 28px rgba(249,115,22,0.78); animation: spark 1.4s infinite alternate; }
+
+    .hero-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(15,23,42,0.48);
+      border: 1px solid rgba(248,250,252,0.08);
+    }
+
+    .hero-foot strong { display: block; font-size: 14px; margin-bottom: 4px; }
+    .card,
+    .step-card,
+    .hotspot-panel,
+    .prompt-box,
+    .review-card,
+    .result-box,
+    .poster {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(248,250,252,0.08);
+      background: rgba(15,23,42,0.62);
+    }
+
+    .light .card,
+    .poster { background: rgba(255,255,255,0.56); border-color: rgba(15,23,42,0.08); }
+
+    .hotspot-stage {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      min-height: auto;
+      margin-top: 18px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(248,250,252,0.08);
+      background:
+        linear-gradient(180deg, rgba(8,16,31,0.08), rgba(8,16,31,0.3)),
+        url("./图片1.png") center / contain no-repeat;
+    }
+
+    .hotspot {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: radial-gradient(circle, #fff 8%, var(--danger) 30%, rgba(239,68,68,0.2) 62%, transparent 64%);
+      animation: hotspot 1.6s infinite;
+    }
+
+    .hotspot:hover,
+    .hotspot:focus-visible { transform: scale(1.12); outline: none; }
+
+    .hotspot-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .chip { padding: 10px 12px; border-radius: 14px; font-size: 13px; color: #e2e8f0; background: rgba(148,163,184,0.08); border: 1px solid rgba(248,250,252,0.06); }
+    .step-card { background: linear-gradient(180deg, rgba(15,23,42,0.72), rgba(15,23,42,0.42)); }
+    .step-no { display: inline-block; margin-bottom: 10px; font-size: 12px; color: #fff7ed; padding: 6px 10px; border-radius: 999px; background: rgba(249,115,22,0.14); border: 1px solid rgba(249,115,22,0.28); }
+    .hotspot-panel { margin-top: 10px; }
+    .hotspot-panel.hidden { display: none; }
+    .knowledge-scroll {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .knowledge-card { padding: 20px 18px 18px; border-radius: 24px; border: 1px solid rgba(248,250,252,0.08); background: rgba(100,116,139,0.16); transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+    .knowledge-card.active { border-color: rgba(249,115,22,0.6); box-shadow: 0 16px 36px rgba(249,115,22,0.16); transform: translateY(-3px); }
+    .knowledge-card.correct { background: rgba(34,197,94,0.16); border-color: rgba(34,197,94,0.48); box-shadow: 0 18px 40px rgba(34,197,94,0.12); }
+    .knowledge-card.wrong { background: rgba(239,68,68,0.14); border-color: rgba(239,68,68,0.48); animation: shake 0.32s linear; }
+    .knowledge-card h3 { font-size: 18px; margin-bottom: 8px; }
+    .knowledge-card p { font-size: 14px; line-height: 1.65; }
+    .status-tag { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 7px 12px; border-radius: 999px; font-size: 12px; background: rgba(148,163,184,0.12); color: #e2e8f0; }
+    .status-tag.safe { color: #dcfce7; background: rgba(34,197,94,0.16); }
+    .status-tag.danger { color: #fee2e2; background: rgba(239,68,68,0.16); }
+
+    .challenge-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 16px;
+      margin-top: 16px;
+      align-items: start;
+    }
+
+    .video-shell {
+      padding: 16px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(15,23,42,0.92), rgba(15,23,42,0.68));
+      border: 1px solid rgba(249,115,22,0.24);
+      box-shadow: 0 0 0 1px rgba(249,115,22,0.12), 0 0 36px rgba(249,115,22,0.18), 0 26px 60px rgba(2,6,23,0.42);
+    }
+
+    .action-shell {
+      padding: 16px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(15,23,42,0.82), rgba(15,23,42,0.62));
+      border: 1px solid rgba(248,250,252,0.08);
+      box-shadow: 0 24px 60px rgba(2,6,23,0.28);
+    }
+
+    .video-meta, .score-line { display: flex; justify-content: space-between; gap: 12px; }
+    .meta-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .meta-value { font-size: 14px; font-weight: 700; }
+
+    .video-frame {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(248,250,252,0.08);
+      background:
+        linear-gradient(180deg, rgba(8,16,31,0.12), rgba(8,16,31,0.88)),
+        radial-gradient(circle at 75% 18%, rgba(249,115,22,0.24), transparent 16%),
+        linear-gradient(160deg, #253449 0%, #0f172a 82%);
+    }
+
+    .scene-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #0b1220;
+      z-index: 1;
+    }
+
+    .video-placeholder {
+      position: absolute;
+      inset: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px dashed rgba(248,250,252,0.18);
+      color: #cbd5e1;
+      background: rgba(15,23,42,0.28);
+      z-index: 1;
+    }
+
+    .frame-smoke { inset: 10% 0 auto auto; width: 72%; height: 38%; background: radial-gradient(circle, rgba(226,232,240,0.16), transparent 62%); filter: blur(12px); animation: drift 8s ease-in-out infinite alternate; z-index: 0; }
+    .frame-char { bottom: 0; left: 30%; width: 42%; height: 62%; background: linear-gradient(180deg, rgba(71,85,105,0.18), rgba(15,23,42,0.94)); clip-path: polygon(32% 0, 52% 0, 60% 18%, 67% 30%, 77% 58%, 70% 100%, 28% 100%, 22% 62%, 33% 28%); z-index: 0; }
+    .frame-door { right: 10%; top: 24%; width: 20%; height: 42%; border-radius: 18px 18px 8px 8px; background: linear-gradient(180deg, rgba(71,85,105,0.56), rgba(15,23,42,1)); box-shadow: inset -12px 0 26px rgba(239,68,68,0.2); z-index: 0; }
+    .frame-desk { left: 10%; bottom: 10%; width: 44%; height: 16%; border-radius: 18px; background: linear-gradient(180deg, rgba(71,85,105,0.58), rgba(15,23,42,0.96)); z-index: 0; }
+    .frame-caption { display: none; inset: auto 0 0; padding: 18px 16px 14px; background: linear-gradient(180deg, transparent, rgba(2,6,23,0.86)); z-index: 2; }
+    .frame-caption .small { font-size: 12px; color: #fdba74; margin-bottom: 6px; }
+    .video-slot { top: 18px; left: 18px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; font-size: 12px; background: rgba(15,23,42,0.76); border: 1px solid rgba(248,250,252,0.12); z-index: 3; }
+
+    .risk-bar { margin-top: 16px; }
+    .risk-track { overflow: hidden; width: 100%; height: 6px; border-radius: 999px; background: rgba(148,163,184,0.18); }
+    .risk-fill { width: 38%; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--danger), var(--danger-2)); transition: width 0.3s ease; }
+
+    .option { width: 100%; text-align: left; padding: 14px 16px; color: var(--text); border-radius: 18px; border: 1px solid rgba(248,250,252,0.08); background: rgba(30,41,59,0.84); cursor: pointer; transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; }
+    .option:hover, .option:focus-visible { transform: translateY(-2px); outline: none; border-color: rgba(249,115,22,0.52); }
+    .option.correct { border-color: rgba(34,197,94,0.6); background: rgba(34,197,94,0.18); box-shadow: 0 12px 28px rgba(34,197,94,0.12); }
+    .option.wrong { border-color: rgba(239,68,68,0.6); background: rgba(239,68,68,0.16); box-shadow: 0 12px 28px rgba(239,68,68,0.1); animation: shake 0.32s linear; }
+
+    .feedback-title { margin-bottom: 8px; font-size: 16px; font-weight: 800; color: #fff7ed; }
+    .review-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .review-stamp { padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fee2e2; background: rgba(239,68,68,0.18); border: 1px solid rgba(239,68,68,0.32); }
+    .review-block { padding: 14px; border-radius: 18px; background: rgba(148,163,184,0.06); }
+    .result-banner { padding: 18px; border-radius: 24px; background: linear-gradient(135deg, rgba(20,184,166,0.18), rgba(255,255,255,0.32)); border: 1px solid rgba(20,184,166,0.22); }
+    .score-line { margin-top: 14px; font-weight: 700; }
+    .poster { color: #0f172a; background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(217,238,242,0.94)); }
+    .poster h3, .poster p { color: #0f172a; }
+    .poster-quote { margin-top: 16px; padding: 18px; border-radius: 20px; background: #f8fafc; border: 1px solid rgba(15,23,42,0.08); }
+    .poster-quote strong { display: block; margin-bottom: 8px; font-size: 18px; line-height: 1.5; }
+    .share-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(2, 6, 23, 0.76);
+      backdrop-filter: blur(10px);
+      z-index: 50;
+    }
+    .share-modal.show { display: flex; }
+    .share-sheet {
+      width: min(100%, 760px);
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding: 26px 22px;
+      border-radius: 30px;
+      border: 1px solid rgba(248,250,252,0.12);
+      background:
+        radial-gradient(circle at 85% 18%, rgba(249,115,22,0.18), transparent 22%),
+        radial-gradient(circle at 18% 22%, rgba(20,184,166,0.16), transparent 20%),
+        linear-gradient(180deg, rgba(248,250,252,0.96), rgba(220,238,241,0.92));
+      box-shadow: 0 36px 80px rgba(2,6,23,0.35);
+    }
+    .share-sheet h2,
+    .share-sheet h3,
+    .share-sheet p,
+    .share-sheet span,
+    .share-sheet strong { color: #102030; }
+    .share-sheet-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .share-close {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 22px;
+      color: #102030;
+      background: rgba(15,23,42,0.08);
+    }
+    .share-stage {
+      margin-top: 16px;
+      padding: 22px 18px;
+      border-radius: 28px;
+      border: 1px solid rgba(15,23,42,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(239,247,248,0.96));
+      box-shadow: 0 24px 60px rgba(15,23,42,0.12);
+    }
+    .share-topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .share-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #102030;
+      background: rgba(15,23,42,0.06);
+      border: 1px solid rgba(15,23,42,0.08);
+    }
+    .share-title {
+      font-size: clamp(28px, 6vw, 38px);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .share-summary {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(15,23,42,0.05);
+      border: 1px solid rgba(15,23,42,0.08);
+    }
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .share-item {
+      padding: 14px 14px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(15,23,42,0.08);
+    }
+    .share-item span {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: rgba(16,32,48,0.7);
+    }
+    .share-item strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+    .share-slogan {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(249,115,22,0.12));
+      border: 1px solid rgba(249,115,22,0.16);
+    }
+    .share-slogan strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1.6;
+    }
+    .share-footer {
+      margin-top: 16px;
+      font-size: 13px;
+      color: rgba(16,32,48,0.7);
+    }
+    .toast { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(20px); padding: 12px 16px; border-radius: 999px; background: rgba(15,23,42,0.9); color: white; border: 1px solid rgba(248,250,252,0.12); opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 20; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(2, 6, 23, 0.72);
+      backdrop-filter: blur(8px);
+      z-index: 40;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal-card {
+      width: min(100%, 420px);
+      padding: 22px 20px;
+      border-radius: 24px;
+      border: 1px solid rgba(248,250,252,0.1);
+      background: linear-gradient(180deg, rgba(15,23,42,0.96), rgba(15,23,42,0.86));
+      box-shadow: 0 24px 60px rgba(2,6,23,0.45);
+    }
+    .modal-card h3 { margin-bottom: 8px; }
+    .modal-card p { margin-bottom: 16px; }
+
+    @media (min-width: 700px) {
+      .page { width: min(100%, 960px); padding: 24px 20px 60px; }
+      .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .equipment-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: 0.7fr 1.3fr; }
+    }
+
+    @media (max-width: 699px) {
+      .knowledge-scroll { grid-template-columns: 1fr; }
+      .challenge-main { grid-template-columns: 1fr; }
+      .share-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="section hero" id="hero">
+      <div class="hero-grid">
+        <div class="hero-top">
+          <div class="clock-chip">
+            <strong>23:18</strong>
+            <span>男生宿舍 4-404</span>
+          </div>
+        </div>
+        <div class="hero-copy">
+          <div>
+            <h1>《别开门》<br>宿舍夜火 180 秒生存挑战</h1>
+          </div>
+          <p>闻到焦糊味后的第一个动作，决定你后面的 180 秒。欢迎进入一场夜间宿舍火情逃生挑战游戏。</p>
+          <div class="button-row">
+            <button class="btn btn-primary" data-scroll="#manual">先看逃生手册</button>
+            <button class="btn btn-secondary" data-scroll="#challenge" id="hero-start-btn">开始挑战</button>
+          </div>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <div>
+          <strong>当前状态</strong>
+          <p>夜宿警报模式已启动，风险正在扩大。</p>
+        </div>
+        <div class="badge">烟势：低</div>
+      </div>
+    </section>
+
+    <section class="section" id="hazards">
+      <div class="eyebrow">找隐患互动图</div>
+      <h2>火不是突然来的，它常常藏在宿舍最普通的习惯里。</h2>
+      <p>点一点插线板位置，查看这个场景里最关键的一处火灾隐患。</p>
+      <div class="hotspot-stage">
+        <button class="hotspot" style="left: 52.5%; top: 76.5%;" data-hotspot="0" aria-label="插线板过载"></button>
+      </div>
+      <div class="hotspot-panel hidden" id="hotspot-panel">
+        <h3 id="hotspot-title">用电细节疏忽</h3>
+        <p id="hotspot-text">夜里学习、边充电边使用设备、发现异味却没及时查看，这些看似不起眼的小疏忽，往往就是事故发生前的信号。</p>
+      </div>
+      <div class="hotspot-list">
+        <div class="chip">私拉乱接</div><div class="chip">大功率电器</div><div class="chip">老旧充电器</div>
+        <div class="chip">人走不断电</div><div class="chip">可燃物堆放</div><div class="chip">插线板过载</div>
+      </div>
+    </section>
+
+    <section class="section" id="manual">
+      <div class="eyebrow">30 秒判断法</div>
+      <h2>夜间宿舍起火，先别慌，先判断这三件事。</h2>
+      <p>这不是背知识点，而是建立判断顺序。先断电，再灭火，再观察上报，把最关键的处置动作压缩成一眼就能记住的三步。</p>
+      <div class="steps">
+        <div class="step-card"><span class="step-no">01</span><h3>先断电</h3><p>看到插排、充电器打火冒烟，先断电，不直接泼水。</p></div>
+        <div class="step-card"><span class="step-no">02</span><h3>再灭火</h3><p>火还在、周围还有可燃物时，优先拿灭火器，不要硬拍硬扛。</p></div>
+        <div class="step-card"><span class="step-no">03</span><h3>再观察上报</h3><p>火压住后别急着碰，先观察，再上报。</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="challenge-intro">
+      <div class="eyebrow">剧情说明</div>
+      <h2>接下来，你就是今晚宿舍里的他。</h2>
+      <p>23:18，室友都不在。你一个人在宿舍赶材料，电脑、台灯、充电器都还开着。闻到焦糊味后，你将连续遇到 3 次判断节点。每次判断，都会点亮或纠正上方的知识卡。</p>
+      <div class="button-row" style="margin-top: 18px;">
+        <button class="btn btn-primary" data-scroll="#challenge">进入场景</button>
+        <button class="btn btn-secondary" data-scroll="#result">先看结果页结构</button>
+      </div>
+    </section>
+
+    <section class="section" id="challenge">
+      <div class="eyebrow">核心挑战区</div>
+      <h2>应对手册｜你的每次选择，都会点亮一个关键动作</h2>
+      <p>上层是动态知识层，下层是 9:16 竖屏挑战区。现在先用占位画面预留视频位置，后续可直接替换为真实漫剧或实拍视频素材。</p>
+      <div class="challenge-layout">
+        <div class="knowledge-scroll">
+          <article class="knowledge-card active" data-node="0"><h3>电器火，先断电</h3><p>先确认是不是插排、充电器或线路起火。能断电时先断电，不要本能泼水。</p><div class="status-tag" id="node-status-0">当前节点</div></article>
+          <article class="knowledge-card" data-node="1"><h3>火变大，拿灭火器</h3><p>火没有完全灭掉、周围还有可燃物时，优先用合适的灭火器处理初起火灾。</p><div class="status-tag" id="node-status-1">等待判断</div></article>
+          <article class="knowledge-card" data-node="2"><h3>火灭后，别乱碰</h3><p>明火被压住，不等于已经完全安全。先观察会不会复燃，再及时上报，不要马上徒手去碰。</p><div class="status-tag" id="node-status-2">等待判断</div></article>
+        </div>
+        <div class="challenge-main">
+          <div class="video-shell">
+            <div class="video-meta">
+              <div><div class="meta-label">场景</div><div class="meta-value" id="scene-title">场景 1｜23:18 宿舍内</div></div>
+              <div><div class="meta-label">风险等级</div><div class="meta-value" id="smoke-level">风险等级｜低</div></div>
+            </div>
+            <div class="video-frame">
+              <div class="video-slot" id="video-slot-label">预留视频位置｜替换为 9:16 视频</div>
+              <video class="scene-video" id="scene-video" playsinline preload="metadata" controls></video>
+              <div class="video-placeholder" id="video-placeholder">点击“开始挑战”后，这里会播放当前节点视频。第 1 段主线视频尚未接入时，将先保留占位提示。</div>
+              <div class="frame-smoke"></div><div class="frame-door"></div><div class="frame-desk"></div><div class="frame-char"></div>
+              <div class="frame-caption"><div class="small" id="scene-kicker">节点 1｜先断电</div><div id="scene-caption">耳机里还放着音乐。你低头看向桌下，插排边缘突然冒出火星。</div></div>
+            </div>
+            <div class="risk-bar"><div class="meta-label">处置进度感应条</div><div class="risk-track"><div class="risk-fill" id="risk-fill"></div></div></div>
+          </div>
+          <div class="action-shell">
+            <div class="prompt-box">
+              <h3 id="prompt-title">如果是你，第一步怎么做？</h3>
+              <p id="prompt-body">插排起火后的第一个动作，决定这场风险是被及时控制，还是继续扩大。</p>
+              <div class="option-list" id="option-list"></div>
+            </div>
+            <div class="review-card" id="feedback-box"><div class="feedback-title">判断中</div><p>选择一个动作后，这里会给出即时反馈，并把上方对应的关键动作点亮或纠偏。</p></div>
+            <div class="button-row" style="margin-top: 16px;"><button class="btn btn-secondary" id="next-scene-btn">下一节点</button><button class="btn btn-secondary" id="reset-btn">重新挑战</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="review">
+      <div class="eyebrow">错误复盘区</div>
+      <h2>误区警报</h2>
+      <div class="review-card">
+        <div class="review-header">
+          <h3 id="review-title">事故复盘卡已待命</h3>
+          <div class="review-stamp" id="review-stamp">误区警报</div>
+        </div>
+        <div class="review-grid">
+          <div class="review-block">
+            <h3 id="review-left-title">风险动作</h3>
+            <p id="review-action">当前还没有记录。进入上方挑战区后，这里会同步显示刚才的错误动作或正确判断。</p>
+          </div>
+          <div class="review-block">
+            <h3 id="review-right-title">为什么危险 / 正确动作</h3>
+            <p id="review-detail">复盘卡采用“事故档案页”风格。选错时显示误区纠正，选对时显示关键原因和记忆口令。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light" id="equipment">
+      <div class="eyebrow">器材与处置卡</div>
+      <h2>你可能在宿舍里见过它们，但未必真正知道什么时候该用、怎么用。</h2>
+      <p>这里故意做成更亮一些的知识缓冲区，让情绪从高压警报过渡到冷静处置。三张卡片控制信息密度，适合手机端左右滑动或直接排版展示。</p>
+      <div class="equipment-row">
+        <article class="card"><h3>干粉灭火器</h3><p>适合处理电器设备等初起火灾。发现插排、充电器起火时，应先断电，再判断是否还能安全使用灭火器处理。</p></article>
+        <article class="card"><h3>插排与充电设备</h3><p>老旧插排、接触不良、充电器和数据线老化，都可能成为宿舍里的起火风险点。看见火星、闻到焦味、听到异响，都不能继续忽视。</p></article>
+        <article class="card"><h3>火灭后的处置</h3><p>明火被压住，不等于已经完全安全。先远离起火点，观察会不会复燃，再及时上报老师、宿管或相关人员，不要立刻徒手去碰设备。</p></article>
+      </div>
+    </section>
+
+    <section class="section light" id="result">
+      <div class="eyebrow">通关报告</div>
+      <h2>你的宿舍夜火通关报告</h2>
+      <div class="result-banner">
+        <h3 id="result-type">沉着判断型</h3>
+        <p id="result-summary">你没有急着“做点什么”，而是先判断火源、烟势和路线。这不是慢，而是关键时刻最难得的冷静。</p>
+      </div>
+      <div class="result-box">
+        <div class="score-line"><span>答对题数</span><strong id="score-text">0 / 3</strong></div>
+        <div class="score-line"><span>最易犯误区</span><strong id="weakness-text">尚未生成</strong></div>
+        <div class="score-line"><span>已点亮知识节点</span><strong id="lit-text">0 个</strong></div>
+      </div>
+      <div class="poster">
+        <h3>《别开门》宿舍夜火生存卡</h3>
+        <p>闻到糊味后，先别慌。先断电，再灭火，再观察上报。</p>
+        <div class="result-box" style="margin-top: 14px; padding: 14px 16px;">
+          <div class="score-line"><span>你的反应类型</span><strong id="poster-type">待生成</strong></div>
+          <div class="score-line"><span>本次报告结论</span><strong id="poster-weakness">待生成</strong></div>
+        </div>
+        <div class="poster-quote">
+          <strong>三句口令</strong>
+          <strong>电器火，先断电</strong>
+          <strong>火变大，拿灭火器</strong>
+          <strong>火灭后，别乱碰</strong>
+        </div>
+        <p style="margin-top: 14px;">转给室友，也转给那个总说“没事”的自己。</p>
+      </div>
+      <div class="button-row" style="margin-top: 18px;">
+        <button class="btn btn-primary" id="share-btn">查看报告与分享页</button>
+        <button class="btn btn-secondary" id="retry-btn">再挑战一次</button>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="toast" id="toast">分享图功能可接海报生成接口，这里先保留交互入口。</div>
+  <div class="modal-backdrop" id="retry-modal">
+    <div class="modal-card">
+      <h3>请重新选择</h3>
+      <p>错误视频已经播放完成。请重新判断并选择正确动作，选对后才能进入下一节点。</p>
+      <button class="btn btn-primary" id="retry-modal-btn">我知道了</button>
+    </div>
+  </div>
+  <div class="share-modal" id="share-modal">
+    <div class="share-sheet">
+      <div class="share-sheet-top">
+        <div class="eyebrow">分享页</div>
+        <button class="share-close" id="share-close-btn" aria-label="关闭分享页">×</button>
+      </div>
+      <h2>宿舍夜火结果海报</h2>
+      <p>这一页用于截图、投屏或转发展示，内容会跟随你的最终通关结果自动更新。</p>
+      <div class="share-stage">
+        <div class="share-topline">
+          <div class="share-chip">《别开门》宿舍夜火 180 秒生存挑战</div>
+          <div class="share-chip">4-404 夜间宿舍场景</div>
+        </div>
+        <h3 class="share-title" id="share-type">等待生成分享结果</h3>
+        <div class="share-summary">
+          <p id="share-summary">完成三道题后，这里会生成你的宿舍夜火应对报告和可展示的分享海报。</p>
+        </div>
+        <div class="share-grid">
+          <div class="share-item">
+            <span>首答得分</span>
+            <strong id="share-score">0 / 3</strong>
+          </div>
+          <div class="share-item">
+            <span>最易犯误区</span>
+            <strong id="share-weakness">待生成</strong>
+          </div>
+          <div class="share-item">
+            <span>已点亮关键动作</span>
+            <strong id="share-lit">0 个</strong>
+          </div>
+          <div class="share-item">
+            <span>展示建议</span>
+            <strong>可直接截图保存，作为比赛展示页或转发海报</strong>
+          </div>
+        </div>
+        <div class="share-slogan">
+          <strong>闻到糊味后，先别慌。先断电，再灭火，再观察上报。</strong>
+          <strong>电器火，先断电</strong>
+          <strong>火变大，拿灭火器</strong>
+          <strong>火灭后，别乱碰</strong>
+        </div>
+        <p class="share-footer">转给室友，也转给那个总说“没事”的自己。</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const hazardData = [
+      { title: "用电细节疏忽", text: "夜里学习、边充电边使用设备、发现异味却没及时查看，这些看似不起眼的小疏忽，往往就是事故发生前的信号。" },
+    ];
+
+    const scenes = [
+      { title: "场景 1｜23:18 宿舍内", smoke: "风险等级｜低", kicker: "节点 1｜先断电", caption: "耳机里还放着音乐。你低头看向桌下，插排边缘突然冒出火星。", promptTitle: "如果是你，第一步怎么做？", promptBody: "插排起火后的第一个动作，决定这场风险是被及时控制，还是继续扩大。", risk: 36, introVideo: "./1：发现插排冒火星.mp4", options: [
+        { label: "A. 端起水杯直接泼", correct: false, action: "直接泼水", video: "./3：错误做法一，直接泼水~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "直接泼水不是快，而是把自己推向触电和风险扩大的位置。插排起火先断电。", reviewTitle: "误区复盘 01", reviewDetail: "看到插排、充电器或线路打火冒烟时，第一反应不该是泼水。正确动作是先断电，再判断是否还存在持续起火风险。" },
+        { label: "B. 先断电", correct: true, action: "先断电", video: "./2：正确做法一，先断电~1.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。先断电，才能把最危险的电气风险先压住。", reviewTitle: "关键动作 01", reviewDetail: "看到插排、充电器或线路起火，先断电，不直接泼水。先把电源风险切掉，后续处置才有基础。" },
+        { label: "C. 先抱上电脑和资料", correct: false, action: "先抢东西", video: "./4：错误做法二，先抱电脑和材料~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "先顾电脑和资料，只会把最关键的断电时机让掉。", reviewTitle: "误区复盘 01", reviewDetail: "这种时候最重要的不是保东西，而是先把正在扩大的风险停下来。插排起火先断电，而不是先抢物品。" }
+      ]},
+      { title: "场景 2｜23:19 宿舍内", smoke: "风险等级｜中", kicker: "节点 2｜拿灭火器", caption: "电源已经断开，但纸箱边缘的小火还没完全灭掉，烟开始明显变多。你抬头，看见门边挂着的干粉灭火器。", promptTitle: "火变大了，下一步怎么做？", promptBody: "当火没有完全熄灭、周围还有可燃物时，正确处置比慌乱硬扛更重要。", risk: 62, introVideo: "", options: [
+        { label: "A. 去拿灭火器", correct: true, action: "拿灭火器处置", video: "./5拿灭火器.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。火还在、周围还有可燃物时，优先用合适的灭火器处理初起火灾。", reviewTitle: "关键动作 02", reviewDetail: "这一步不是硬拍硬扛，也不是拖着不管，而是及时用合适的灭火器处理还在蔓延的明火。" },
+        { label: "B. 拿书本去拍打火苗", correct: false, action: "拍打火苗", video: "./6：错误做法三，拿书拍打火苗.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "书本拍打不稳定，既可能让火扩散，也会把自己带进危险距离。", reviewTitle: "误区复盘 02", reviewDetail: "火没有完全灭掉、周围还有可燃物时，不要靠近硬拍硬扛。优先拿灭火器，才是更稳妥的处置方式。" },
+        { label: "C. 先去开窗通风", correct: false, action: "先开窗通风", video: "./7：错误做法四，先去开窗通风.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "火还没压住时先开窗，不是处置，反而可能让火继续发展。", reviewTitle: "误区复盘 02", reviewDetail: "当前最优先的不是通风，而是先把明火压住。正确顺序是先控制火，再做后续观察和处理。" }
+      ]},
+      { title: "场景 3｜23:20 宿舍内", smoke: "风险等级｜已控制", kicker: "节点 3｜火灭后别乱碰", caption: "明火已经被干粉压住，桌下只剩白色干粉、焦糊味和一点残余烟。你站在原地，盯着烧黑的插排。", promptTitle: "明火压住后，接下来怎么做？", promptBody: "火灭了，不等于事情结束。后续判断对不对，决定会不会出现复燃和二次风险。", risk: 88, introVideo: "", options: [
+        { label: "A. 立刻去扶正插排，看看还能不能用", correct: false, action: "立刻去碰插排", video: "./9：错误做法五，火刚灭就去碰插排~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "明火压住不等于已经绝对安全，马上徒手去碰是冒险。", reviewTitle: "误区复盘 03", reviewDetail: "火灭后别乱碰。先观察是否还有残余烟、异味或复燃风险，再做后续处理和上报，不要立刻徒手接触起火物。" },
+        { label: "B. 先远离起火点，观察是否复燃，同时上报老师或宿管", correct: true, action: "观察并上报", video: "./8：正确做法三，火灭后不乱碰，先观察并上报~1.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。火压住后别急着碰，先观察是否复燃，再及时上报。", reviewTitle: "关键动作 03", reviewDetail: "明火被压住，不等于已经完全安全。先观察，再上报，不要马上徒手去碰，这是避免二次风险的关键动作。" },
+        { label: "C. 觉得已经没事了，坐回去继续学习", correct: false, action: "当作已经没事", video: "./10：错误做法六，觉得没事了继续学习~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "火灭了不代表结束，忽略后续观察和上报，很容易漏掉复燃风险。", reviewTitle: "误区复盘 03", reviewDetail: "真正稳妥的收尾不是继续做别的事，而是先观察现场是否复燃，再及时上报，确认风险真正解除。" }
+      ]}
+    ];
+
+    const state = {
+      currentScene: 0,
+      firstAnswers: Array(scenes.length).fill(null),
+      lastAttempts: Array(scenes.length).fill(null),
+      completed: Array(scenes.length).fill(false),
+      sceneReady: false,
+      optionsLocked: false,
+      pendingCorrectIndex: null
+    };
+    let hotspotOpened = false;
+    const hotspotTitle = document.getElementById("hotspot-title");
+    const hotspotText = document.getElementById("hotspot-text");
+    const optionList = document.getElementById("option-list");
+    const sceneTitle = document.getElementById("scene-title");
+    const smokeLevel = document.getElementById("smoke-level");
+    const sceneKicker = document.getElementById("scene-kicker");
+    const sceneCaption = document.getElementById("scene-caption");
+    const promptTitle = document.getElementById("prompt-title");
+    const promptBody = document.getElementById("prompt-body");
+    const feedbackBox = document.getElementById("feedback-box");
+    const reviewTitle = document.getElementById("review-title");
+    const reviewLeftTitle = document.getElementById("review-left-title");
+    const reviewRightTitle = document.getElementById("review-right-title");
+    const reviewAction = document.getElementById("review-action");
+    const reviewDetail = document.getElementById("review-detail");
+    const reviewStamp = document.getElementById("review-stamp");
+    const riskFill = document.getElementById("risk-fill");
+    const nextSceneBtn = document.getElementById("next-scene-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const retryBtn = document.getElementById("retry-btn");
+    const shareBtn = document.getElementById("share-btn");
+    const toast = document.getElementById("toast");
+    const scoreText = document.getElementById("score-text");
+    const weaknessText = document.getElementById("weakness-text");
+    const litText = document.getElementById("lit-text");
+    const resultType = document.getElementById("result-type");
+    const resultSummary = document.getElementById("result-summary");
+    const posterType = document.getElementById("poster-type");
+    const posterWeakness = document.getElementById("poster-weakness");
+    const shareType = document.getElementById("share-type");
+    const shareSummary = document.getElementById("share-summary");
+    const shareScore = document.getElementById("share-score");
+    const shareWeakness = document.getElementById("share-weakness");
+    const shareLit = document.getElementById("share-lit");
+    const shareModal = document.getElementById("share-modal");
+    const shareCloseBtn = document.getElementById("share-close-btn");
+    const sceneVideo = document.getElementById("scene-video");
+    const videoPlaceholder = document.getElementById("video-placeholder");
+    const videoSlotLabel = document.getElementById("video-slot-label");
+    const heroStartBtn = document.getElementById("hero-start-btn");
+    const retryModal = document.getElementById("retry-modal");
+    const retryModalBtn = document.getElementById("retry-modal-btn");
+
+    function setVideoSource(src, placeholderText) {
+      sceneVideo.pause();
+      sceneVideo.removeAttribute("src");
+      sceneVideo.load();
+      if (src) {
+        sceneVideo.src = encodeURI(src);
+        sceneVideo.style.display = "block";
+        videoPlaceholder.style.display = "none";
+      } else {
+        sceneVideo.style.display = "none";
+        videoPlaceholder.style.display = "flex";
+        videoPlaceholder.textContent = placeholderText;
+      }
+    }
+
+    function keepLastVideoFrame() {
+      videoPlaceholder.style.display = "none";
+      sceneVideo.style.display = "block";
+      videoSlotLabel.textContent = "点击选项后播放本题视频";
+    }
+
+    sceneVideo.addEventListener("error", () => {
+      sceneVideo.style.display = "none";
+      videoPlaceholder.style.display = "flex";
+      videoPlaceholder.textContent = "当前视频文件未找到或尚未接入，请检查素材文件名。";
+    });
+
+    function playVideo(src, fallbackText) {
+      if (!src) {
+        setVideoSource("", fallbackText);
+        return Promise.resolve(false);
+      }
+      setVideoSource(src, fallbackText);
+      const playPromise = sceneVideo.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        return playPromise.then(() => true).catch(() => true);
+      }
+      return Promise.resolve(true);
+    }
+
+    function waitVideoEnd() {
+      return new Promise((resolve) => {
+        const finish = () => {
+          sceneVideo.removeEventListener("ended", finish);
+          sceneVideo.removeEventListener("error", finish);
+          resolve();
+        };
+        sceneVideo.addEventListener("ended", finish, { once: true });
+        sceneVideo.addEventListener("error", finish, { once: true });
+      });
+    }
+
+    async function startSceneIntro() {
+      state.sceneReady = true;
+      const scene = scenes[state.currentScene];
+      if (scene.introVideo) {
+        videoSlotLabel.textContent = "当前主线视频";
+        await playVideo(scene.introVideo, "当前主线视频未接入。");
+      } else {
+        keepLastVideoFrame();
+      }
+    }
+
+    document.querySelectorAll("[data-scroll]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const target = document.querySelector(button.dataset.scroll);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    document.querySelectorAll(".hotspot").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = hazardData[Number(button.dataset.hotspot)];
+        document.getElementById("hotspot-panel").classList.remove("hidden");
+        hotspotTitle.textContent = item.title;
+        hotspotText.textContent = item.text;
+        hotspotOpened = true;
+      });
+    });
+
+    function setKnowledgeState(index, type) {
+      const card = document.querySelector(`.knowledge-card[data-node="${index}"]`);
+      const tag = document.getElementById(`node-status-${index}`);
+      card.classList.remove("active", "correct", "wrong");
+      if (type === "correct") {
+        card.classList.add("correct");
+        tag.textContent = "已掌握";
+        tag.className = "status-tag safe";
+      } else if (type === "wrong") {
+        card.classList.add("wrong");
+        tag.textContent = "误区纠正";
+        tag.className = "status-tag danger";
+      } else if (type === "active") {
+        card.classList.add("active");
+        tag.textContent = "当前节点";
+        tag.className = "status-tag";
+      } else {
+        tag.textContent = "等待判断";
+        tag.className = "status-tag";
+      }
+    }
+
+    function syncKnowledgeCards() {
+      scenes.forEach((scene, index) => {
+        const answer = state.firstAnswers[index];
+        if (state.completed[index]) {
+          setKnowledgeState(index, "correct");
+        } else if (answer === null) {
+          setKnowledgeState(index, index === state.currentScene ? "active" : "default");
+        } else {
+          setKnowledgeState(index, answer.correct ? "correct" : "wrong");
+        }
+      });
+    }
+
+    function updateResult() {
+      const answeredCount = state.firstAnswers.filter(Boolean).length;
+      const firstCorrectCount = state.firstAnswers.filter((answer) => answer && answer.correct).length;
+      const wrongMask = state.firstAnswers.map((answer) => !answer || !answer.correct);
+      scoreText.textContent = `${firstCorrectCount} / ${scenes.length}`;
+      litText.textContent = state.completed.every(Boolean) ? "3 个" : `${state.completed.filter(Boolean).length} 个`;
+
+      if (!state.completed.every(Boolean)) {
+        weaknessText.textContent = "尚未生成";
+        resultType.textContent = "等待通关";
+        resultSummary.textContent = answeredCount === 0 ? "完成三次关键判断后，这里会根据你每一道题的首次选择生成报告。" : "完成三道题后，系统才会根据你每一道题的首次选择生成正式报告。";
+        posterType.textContent = "待生成";
+        posterWeakness.textContent = "待生成";
+        shareType.textContent = "等待生成分享结果";
+        shareSummary.textContent = answeredCount === 0 ? "完成三道题后，这里会生成你的宿舍夜火应对报告和可展示的分享海报。" : "还差最后几步。完成三道题后，分享页会自动更新成最终报告海报。";
+        shareScore.textContent = `${firstCorrectCount} / ${scenes.length}`;
+        shareWeakness.textContent = "待生成";
+        shareLit.textContent = `${state.completed.filter(Boolean).length} 个`;
+        shareBtn.disabled = true;
+        return;
+      }
+      shareBtn.disabled = false;
+
+      if (wrongMask[0]) {
+        weaknessText.textContent = "第一反应过于慌乱";
+      } else if (wrongMask[1]) {
+        weaknessText.textContent = "火势升级时处置犹豫";
+      } else if (wrongMask[2]) {
+        weaknessText.textContent = "善后阶段容易松懈";
+      } else {
+        weaknessText.textContent = "暂无明显误区";
+      }
+
+      if (firstCorrectCount === 3) {
+        resultType.textContent = "沉着判断型";
+        resultSummary.textContent = "你在三个关键节点里都做出了正确判断。从先断电，到拿灭火器，再到火灭后的观察和上报，你没有被本能带偏。";
+      } else if (wrongMask[0] && !wrongMask[1] && !wrongMask[2]) {
+        resultType.textContent = "起步误判型";
+        resultSummary.textContent = "你在最开始那几秒，容易被本能带偏。但一旦被提醒，你后面的判断是稳的。你的主要问题不在后续处置，而在第一反应。";
+      } else if (!wrongMask[0] && wrongMask[1] && !wrongMask[2]) {
+        resultType.textContent = "处置犹豫型";
+        resultSummary.textContent = "你知道起火后的第一步，但在火势升级时，容易犹豫或乱用方法。会断电，还要会正确灭火。";
+      } else if (!wrongMask[0] && !wrongMask[1] && wrongMask[2]) {
+        resultType.textContent = "善后松懈型";
+        resultSummary.textContent = "你前面的判断都对，但在火已经压住之后最容易放松。火灭了，不等于事情结束，最后一步没做完，风险就还没真正结束。";
+      } else if (wrongMask[0] && wrongMask[1] && wrongMask[2]) {
+        resultType.textContent = "本能失控型";
+        resultSummary.textContent = "你的每一步几乎都被本能牵着走。真正要先记住的不是更多知识，而是正确顺序：断电、灭火、观察上报。";
+      } else {
+        resultType.textContent = "容易被侥幸带偏型";
+        resultSummary.textContent = "你不是不知道危险，而是太容易被“应该没事”“再试一下”这样的侥幸想法拖住。判断顺序比动作快慢更重要：先断电、再灭火、再观察上报。";
+      }
+      posterType.textContent = resultType.textContent;
+      posterWeakness.textContent = weaknessText.textContent;
+      shareType.textContent = resultType.textContent;
+      shareSummary.textContent = resultSummary.textContent;
+      shareScore.textContent = `${firstCorrectCount} / ${scenes.length}`;
+      shareWeakness.textContent = weaknessText.textContent;
+      shareLit.textContent = "3 个";
+    }
+
+    function renderScene() {
+      const scene = scenes[state.currentScene];
+      sceneTitle.textContent = scene.title;
+      smokeLevel.textContent = scene.smoke;
+      sceneKicker.textContent = scene.kicker;
+      sceneCaption.textContent = scene.caption;
+      promptTitle.textContent = scene.promptTitle;
+      promptBody.textContent = scene.promptBody;
+      riskFill.style.width = `${scene.risk}%`;
+      optionList.innerHTML = "";
+      const lastAttempt = state.lastAttempts[state.currentScene];
+      const isCompleted = state.completed[state.currentScene];
+      if (!lastAttempt) {
+        if (scene.introVideo) {
+          videoSlotLabel.textContent = "当前主线视频";
+          setVideoSource(scene.introVideo, "点击“开始挑战”后，这里会播放当前节点视频。当前没有主线视频时，也可以直接点击右侧选项进入分支视频。");
+        } else if (state.currentScene > 0) {
+          keepLastVideoFrame();
+        } else {
+          videoSlotLabel.textContent = "点击选项后播放本题视频";
+          setVideoSource("", "当前没有主线视频时，也可以直接点击右侧选项进入分支视频。");
+        }
+      }
+      scene.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.className = "option";
+        button.textContent = option.label;
+        if (lastAttempt) {
+          if (lastAttempt.selectedIndex === index) button.classList.add(lastAttempt.correct ? "correct" : "wrong");
+          if (isCompleted && option.correct && lastAttempt.selectedIndex !== index) button.classList.add("correct");
+        }
+        if (isCompleted || state.optionsLocked) {
+          button.disabled = true;
+        }
+        button.addEventListener("click", () => selectOption(index));
+        optionList.appendChild(button);
+      });
+
+      feedbackBox.innerHTML = lastAttempt
+        ? `<div class="feedback-title">${lastAttempt.feedbackTitle}</div><p>${lastAttempt.feedback}</p>`
+        : `<div class="feedback-title">判断中</div><p>选择一个动作后，这里会给出即时反馈，并把上方对应的关键动作点亮或纠偏。</p>`;
+
+      nextSceneBtn.textContent = state.currentScene === scenes.length - 1 ? "查看结果" : "下一节点";
+      nextSceneBtn.disabled = !isCompleted || state.optionsLocked;
+      syncKnowledgeCards();
+      updateResult();
+    }
+
+    async function selectOption(index) {
+      if (state.completed[state.currentScene] || state.optionsLocked) return;
+      const selected = scenes[state.currentScene].options[index];
+      const attempt = { ...selected, selectedIndex: index };
+      state.lastAttempts[state.currentScene] = attempt;
+      if (!state.firstAnswers[state.currentScene]) {
+        state.firstAnswers[state.currentScene] = attempt;
+      }
+      reviewTitle.textContent = selected.reviewTitle;
+      reviewLeftTitle.textContent = selected.correct ? "正确动作" : "风险动作";
+      reviewRightTitle.textContent = selected.correct ? "你很棒" : "为什么危险";
+      reviewAction.textContent = selected.correct ? `你的正确动作：${selected.action}` : `你的风险动作：${selected.action}`;
+      reviewDetail.textContent = selected.reviewDetail;
+      reviewStamp.textContent = selected.correct ? "关键动作" : "误区警报";
+      reviewStamp.style.background = selected.correct ? "rgba(34,197,94,0.16)" : "rgba(239,68,68,0.18)";
+      reviewStamp.style.color = selected.correct ? "#dcfce7" : "#fee2e2";
+      reviewStamp.style.borderColor = selected.correct ? "rgba(34,197,94,0.32)" : "rgba(239,68,68,0.32)";
+      state.optionsLocked = true;
+      renderScene();
+
+      await playVideo(selected.video, "当前分支视频未接入。");
+      await waitVideoEnd();
+
+      if (selected.correct) {
+        state.completed[state.currentScene] = true;
+        state.pendingCorrectIndex = null;
+        feedbackBox.innerHTML = `<div class="feedback-title">关键动作已完成</div><p>这一关已经通过。继续进入下一节点。</p>`;
+        state.optionsLocked = false;
+        renderScene();
+      } else {
+        retryModal.classList.add("show");
+      }
+    }
+
+    function resetChallenge() {
+      state.currentScene = 0;
+      state.firstAnswers = Array(scenes.length).fill(null);
+      state.lastAttempts = Array(scenes.length).fill(null);
+      state.completed = Array(scenes.length).fill(false);
+      state.sceneReady = true;
+      state.optionsLocked = false;
+      state.pendingCorrectIndex = null;
+      retryModal.classList.remove("show");
+      reviewTitle.textContent = "事故复盘卡已待命";
+      reviewLeftTitle.textContent = "风险动作";
+      reviewRightTitle.textContent = "为什么危险 / 正确动作";
+      reviewAction.textContent = "当前还没有记录。进入上方挑战区后，这里会同步显示刚才的错误动作或正确判断。";
+      reviewDetail.textContent = "复盘卡采用“事故档案页”风格。选错时显示误区纠正，选对时显示关键原因和记忆口令。";
+      reviewStamp.textContent = "误区警报";
+      reviewStamp.style.background = "rgba(239,68,68,0.18)";
+      reviewStamp.style.color = "#fee2e2";
+      reviewStamp.style.borderColor = "rgba(239,68,68,0.32)";
+      renderScene();
+    }
+
+    nextSceneBtn.addEventListener("click", () => {
+      if (!state.completed[state.currentScene]) return;
+      if (state.currentScene < scenes.length - 1) {
+        state.currentScene += 1;
+        renderScene();
+        startSceneIntro();
+      } else {
+        document.getElementById("result").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    [resetBtn, retryBtn].forEach((button) => button.addEventListener("click", resetChallenge));
+    heroStartBtn.addEventListener("click", () => {
+      state.currentScene = 0;
+      state.sceneReady = true;
+      renderScene();
+      startSceneIntro();
+    });
+    retryModalBtn.addEventListener("click", () => {
+      retryModal.classList.remove("show");
+      state.optionsLocked = false;
+      feedbackBox.innerHTML = `<div class="feedback-title">请重新选择正确动作</div><p>错误视频已播放完成。请重新判断，选对后才能进入下一节点。</p>`;
+      renderScene();
+    });
+    shareBtn.addEventListener("click", () => {
+      if (!state.completed.every(Boolean)) {
+        toast.textContent = "完成三道题后，才可以生成报告和分享页。";
+        toast.classList.add("show");
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => {
+          toast.classList.remove("show");
+          toast.textContent = "分享图功能可接海报生成接口，这里先保留交互入口。";
+        }, 1800);
+        return;
+      }
+      shareModal.classList.add("show");
+    });
+    shareCloseBtn.addEventListener("click", () => {
+      shareModal.classList.remove("show");
+    });
+    shareModal.addEventListener("click", (event) => {
+      if (event.target === shareModal) {
+        shareModal.classList.remove("show");
+      }
+    });
+
+    state.sceneReady = true;
+    renderScene();
+  </script>
+</body>
+</html>
