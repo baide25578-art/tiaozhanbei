@@ -776,20 +776,20 @@
     ];
 
     const scenes = [
-      { title: "场景 1｜23:18 宿舍内", smoke: "风险等级｜低", kicker: "节点 1｜先断电", caption: "耳机里还放着音乐。你低头看向桌下，插排边缘突然冒出火星。", promptTitle: "如果是你，第一步怎么做？", promptBody: "插排起火后的第一个动作，决定这场风险是被及时控制，还是继续扩大。", risk: 36, introVideo: "./视频素材/1/1：发现插排冒火星.mp4", options: [
-        { label: "A. 端起水杯直接泼", correct: false, action: "直接泼水", video: "./视频素材/1/3：错误做法一，直接泼水~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "直接泼水不是快，而是把自己推向触电和风险扩大的位置。插排起火先断电。", reviewTitle: "误区复盘 01", reviewDetail: "看到插排、充电器或线路打火冒烟时，第一反应不该是泼水。正确动作是先断电，再判断是否还存在持续起火风险。" },
-        { label: "B. 先断电", correct: true, action: "先断电", video: "./视频素材/1/2：正确做法一，先断电~1.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。先断电，才能把最危险的电气风险先压住。", reviewTitle: "关键动作 01", reviewDetail: "看到插排、充电器或线路起火，先断电，不直接泼水。先把电源风险切掉，后续处置才有基础。" },
-        { label: "C. 先抱上电脑和资料", correct: false, action: "先抢东西", video: "./视频素材/1/4：错误做法二，先抱电脑和材料~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "先顾电脑和资料，只会把最关键的断电时机让掉。", reviewTitle: "误区复盘 01", reviewDetail: "这种时候最重要的不是保东西，而是先把正在扩大的风险停下来。插排起火先断电，而不是先抢物品。" }
+      { title: "场景 1｜23:18 宿舍内", smoke: "风险等级｜低", kicker: "节点 1｜先断电", caption: "耳机里还放着音乐。你低头看向桌下，插排边缘突然冒出火星。", promptTitle: "如果是你，第一步怎么做？", promptBody: "插排起火后的第一个动作，决定这场风险是被及时控制，还是继续扩大。", risk: 36, introVideo: "./1：发现插排冒火星.mp4", options: [
+        { label: "A. 端起水杯直接泼", correct: false, action: "直接泼水", video: "./3：错误做法一，直接泼水~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "直接泼水不是快，而是把自己推向触电和风险扩大的位置。插排起火先断电。", reviewTitle: "误区复盘 01", reviewDetail: "看到插排、充电器或线路打火冒烟时，第一反应不该是泼水。正确动作是先断电，再判断是否还存在持续起火风险。" },
+        { label: "B. 先断电", correct: true, action: "先断电", video: "./2：正确做法一，先断电~1.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。先断电，才能把最危险的电气风险先压住。", reviewTitle: "关键动作 01", reviewDetail: "看到插排、充电器或线路起火，先断电，不直接泼水。先把电源风险切掉，后续处置才有基础。" },
+        { label: "C. 先抱上电脑和资料", correct: false, action: "先抢东西", video: "./4：错误做法二，先抱电脑和材料~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "先顾电脑和资料，只会把最关键的断电时机让掉。", reviewTitle: "误区复盘 01", reviewDetail: "这种时候最重要的不是保东西，而是先把正在扩大的风险停下来。插排起火先断电，而不是先抢物品。" }
       ]},
       { title: "场景 2｜23:19 宿舍内", smoke: "风险等级｜中", kicker: "节点 2｜拿灭火器", caption: "电源已经断开，但纸箱边缘的小火还没完全灭掉，烟开始明显变多。你抬头，看见门边挂着的干粉灭火器。", promptTitle: "火变大了，下一步怎么做？", promptBody: "当火没有完全熄灭、周围还有可燃物时，正确处置比慌乱硬扛更重要。", risk: 62, introVideo: "", options: [
-        { label: "A. 去拿灭火器", correct: true, action: "拿灭火器处置", video: "./视频素材/1/5拿灭火器.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。火还在、周围还有可燃物时，优先用合适的灭火器处理初起火灾。", reviewTitle: "关键动作 02", reviewDetail: "这一步不是硬拍硬扛，也不是拖着不管，而是及时用合适的灭火器处理还在蔓延的明火。" },
-        { label: "B. 拿书本去拍打火苗", correct: false, action: "拍打火苗", video: "./视频素材/1/6：错误做法三，拿书拍打火苗.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "书本拍打不稳定，既可能让火扩散，也会把自己带进危险距离。", reviewTitle: "误区复盘 02", reviewDetail: "火没有完全灭掉、周围还有可燃物时，不要靠近硬拍硬扛。优先拿灭火器，才是更稳妥的处置方式。" },
-        { label: "C. 先去开窗通风", correct: false, action: "先开窗通风", video: "./视频素材/1/7：错误做法四，先去开窗通风.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "火还没压住时先开窗，不是处置，反而可能让火继续发展。", reviewTitle: "误区复盘 02", reviewDetail: "当前最优先的不是通风，而是先把明火压住。正确顺序是先控制火，再做后续观察和处理。" }
+        { label: "A. 去拿灭火器", correct: true, action: "拿灭火器处置", video: "./5拿灭火器.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。火还在、周围还有可燃物时，优先用合适的灭火器处理初起火灾。", reviewTitle: "关键动作 02", reviewDetail: "这一步不是硬拍硬扛，也不是拖着不管，而是及时用合适的灭火器处理还在蔓延的明火。" },
+        { label: "B. 拿书本去拍打火苗", correct: false, action: "拍打火苗", video: "./6：错误做法三，拿书拍打火苗.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "书本拍打不稳定，既可能让火扩散，也会把自己带进危险距离。", reviewTitle: "误区复盘 02", reviewDetail: "火没有完全灭掉、周围还有可燃物时，不要靠近硬拍硬扛。优先拿灭火器，才是更稳妥的处置方式。" },
+        { label: "C. 先去开窗通风", correct: false, action: "先开窗通风", video: "./7：错误做法四，先去开窗通风.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "火还没压住时先开窗，不是处置，反而可能让火继续发展。", reviewTitle: "误区复盘 02", reviewDetail: "当前最优先的不是通风，而是先把明火压住。正确顺序是先控制火，再做后续观察和处理。" }
       ]},
       { title: "场景 3｜23:20 宿舍内", smoke: "风险等级｜已控制", kicker: "节点 3｜火灭后别乱碰", caption: "明火已经被干粉压住，桌下只剩白色干粉、焦糊味和一点残余烟。你站在原地，盯着烧黑的插排。", promptTitle: "明火压住后，接下来怎么做？", promptBody: "火灭了，不等于事情结束。后续判断对不对，决定会不会出现复燃和二次风险。", risk: 88, introVideo: "", options: [
-        { label: "A. 立刻去扶正插排，看看还能不能用", correct: false, action: "立刻去碰插排", video: "./视频素材/1/9：错误做法五，火刚灭就去碰插排~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "明火压住不等于已经绝对安全，马上徒手去碰是冒险。", reviewTitle: "误区复盘 03", reviewDetail: "火灭后别乱碰。先观察是否还有残余烟、异味或复燃风险，再做后续处理和上报，不要立刻徒手接触起火物。" },
-        { label: "B. 先远离起火点，观察是否复燃，同时上报老师或宿管", correct: true, action: "观察并上报", video: "./视频素材/1/8：正确做法三，火灭后不乱碰，先观察并上报~1.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。火压住后别急着碰，先观察是否复燃，再及时上报。", reviewTitle: "关键动作 03", reviewDetail: "明火被压住，不等于已经完全安全。先观察，再上报，不要马上徒手去碰，这是避免二次风险的关键动作。" },
-        { label: "C. 觉得已经没事了，坐回去继续学习", correct: false, action: "当作已经没事", video: "./视频素材/1/10：错误做法六，觉得没事了继续学习~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "火灭了不代表结束，忽略后续观察和上报，很容易漏掉复燃风险。", reviewTitle: "误区复盘 03", reviewDetail: "真正稳妥的收尾不是继续做别的事，而是先观察现场是否复燃，再及时上报，确认风险真正解除。" }
+        { label: "A. 立刻去扶正插排，看看还能不能用", correct: false, action: "立刻去碰插排", video: "./9：错误做法五，火刚灭就去碰插排~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "明火压住不等于已经绝对安全，马上徒手去碰是冒险。", reviewTitle: "误区复盘 03", reviewDetail: "火灭后别乱碰。先观察是否还有残余烟、异味或复燃风险，再做后续处理和上报，不要立刻徒手接触起火物。" },
+        { label: "B. 先远离起火点，观察是否复燃，同时上报老师或宿管", correct: true, action: "观察并上报", video: "./8：正确做法三，火灭后不乱碰，先观察并上报~1.mp4", feedbackTitle: "判断正确，已点亮关键动作", feedback: "对。火压住后别急着碰，先观察是否复燃，再及时上报。", reviewTitle: "关键动作 03", reviewDetail: "明火被压住，不等于已经完全安全。先观察，再上报，不要马上徒手去碰，这是避免二次风险的关键动作。" },
+        { label: "C. 觉得已经没事了，坐回去继续学习", correct: false, action: "当作已经没事", video: "./10：错误做法六，觉得没事了继续学习~1.mp4", feedbackTitle: "误区警报，进入复盘", feedback: "火灭了不代表结束，忽略后续观察和上报，很容易漏掉复燃风险。", reviewTitle: "误区复盘 03", reviewDetail: "真正稳妥的收尾不是继续做别的事，而是先观察现场是否复燃，再及时上报，确认风险真正解除。" }
       ]}
     ];
 
